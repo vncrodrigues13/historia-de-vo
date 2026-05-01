@@ -1,0 +1,33 @@
+import { INestApplication } from "@nestjs/common";
+import { Test } from "@nestjs/testing";
+import request from "supertest";
+import { AppModule } from "../src/app.module";
+
+describe("Health route (e2e)", () => {
+  let app: INestApplication;
+
+  beforeAll(async () => {
+    const moduleRef = await Test.createTestingModule({
+      imports: [AppModule]
+    }).compile();
+
+    app = moduleRef.createNestApplication();
+    await app.init();
+  });
+
+  afterAll(async () => {
+    if (app) {
+      await app.close();
+    }
+  });
+
+  it("/health (GET)", async () => {
+    const response = await request(app.getHttpServer()).get("/health").expect(200);
+
+    expect(response.body).toMatchObject({
+      status: "ok",
+      service: "historias-de-vo-backend"
+    });
+    expect(typeof response.body.timestamp).toBe("string");
+  });
+});

@@ -1,0 +1,114 @@
+:root {
+  color-scheme: light;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #f7fafc, #eef2f7);
+  color: #111827;
+}
+
+.page-shell {
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.app-card {
+  max-width: 960px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #dbe1eb;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.08);
+}
+
+.app-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.app-title {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.tab-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tab-button {
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  color: #374151;
+  border-radius: 10px;
+  padding: 0.625rem 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.tab-button[aria-selected="true"] {
+  border-color: #0f766e;
+  background: #ccfbf1;
+  color: #115e59;
+}
+
+.tab-panel {
+  padding: 1.25rem;
+}
+
+.section-title {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.section-copy {
+  margin-top: 0;
+  color: #4b5563;
+}
+
+.story-form {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.story-form label {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.story-form input,
+.story-form select,
+.story-form textarea {
+  width: 100%;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.state-preview {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 700px) {
+  .tab-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
