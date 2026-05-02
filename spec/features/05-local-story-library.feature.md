@@ -15,6 +15,9 @@ Frontend. This feature uses browser storage and UI screens only.
 Stitch screen:
 `Histórico de Histórias` from project `15204996058292121576`, screen `b610fe1a118c47e9a25a537c1d1e6230`.
 
+Asset fallback:
+When the Stitch MCP fetch is unavailable or incomplete, use `external-assets/stitch/stitch_contos_de_ninar_control_panel/hist_rico_de_hist_rias/` as the fallback source for the History screen reference. The expected source files are `screen.png` and `code.html`; imported copies live in `frontend/assets/stitch/b610fe1a118c47e9a25a537c1d1e6230/`.
+
 ## User Flow
 
 1. A generated story is saved automatically.
@@ -31,6 +34,7 @@ Stitch screen:
 - Confirm before deleting.
 - History screen should match the extracted Stitch list layout, empty state, and story item actions.
 - History copy and dates should be Portuguese-first.
+- Product decision: History visual parity should use the Stitch MCP reference when available; if MCP fetching fails, continue with the checked-in `external-assets/` fallback.
 
 ## Implementation Plan
 
@@ -44,6 +48,7 @@ Stitch screen:
 ## TODO
 
 - [ ] Download `Histórico de Histórias` Stitch references into `frontend/assets/stitch/b610fe1a118c47e9a25a537c1d1e6230/`.
+- [ ] If MCP export is unavailable, import the History reference from `external-assets/stitch/stitch_contos_de_ninar_control_panel/hist_rico_de_hist_rias/`.
 - [ ] Implement `story-storage`.
 - [ ] Save generated stories.
 - [ ] Create History section.

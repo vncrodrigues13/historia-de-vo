@@ -12,6 +12,9 @@ Must have.
 Development area:
 Frontend. This feature creates the `frontend/` app base, local environment examples, layout shell, and domain types used by the browser app.
 
+Asset fallback policy:
+If any later feature needs Stitch reference assets and the Stitch MCP fetch is unavailable, use the checked-in files under `external-assets/stitch/stitch_contos_de_ninar_control_panel/` as the fallback source instead of blocking frontend work.
+
 ## User Flow
 
 1. The parent opens the app in the browser.
@@ -33,6 +36,7 @@ Frontend. This feature creates the `frontend/` app base, local environment examp
 - Create the base domain types from `project-kickoff.md` for stories, settings, and timers inside the project that uses them.
 - Keep the first layout as one responsive page with internal tabs.
 - Preserve the generated story state when switching between tabs.
+- Foundation docs and folder conventions should allow frontend teams to import checked-in fallback assets from `external-assets/` when Stitch MCP export is unavailable.
 
 ## Implementation Plan
 

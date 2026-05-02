@@ -5,7 +5,14 @@ import { CreateTab, type StoryDraftState } from "@/components/create-tab";
 import { FavoritesTab } from "@/components/favorites-tab";
 import { HistoryTab } from "@/components/history-tab";
 import { SettingsTab } from "@/components/settings-tab";
+import { StoryResult } from "@/components/story-result";
 import type { StoryParams } from "@/domain/story";
+import type { GeneratedStory } from "@/domain/story-generation";
+import {
+  StoryGenerationService,
+  toStoryGenerationUserMessage
+} from "@/services/story-generation/story-generation.service";
+import { persistGeneratedStory } from "@/services/story-generation/story-persistence";
 
 type AppTab = "create" | "history" | "favorites" | "settings";
 
@@ -39,15 +46,44 @@ const initialDraft: StoryDraftState = {
   specialDetail: ""
 };
 
-export function TabShell() {
+type TabShellProps = {
+  generationService?: StoryGenerationService;
+  persistStory?: (story: GeneratedStory) => Promise<void>;
+};
+
+export function TabShell({ generationService: injectedGenerationService, persistStory = persistGeneratedStory }: TabShellProps) {
   const [activeTab, setActiveTab] = useState<AppTab>("create");
   const [draftStory, setDraftStory] = useState<StoryDraftState>(initialDraft);
-  const [submissionState, setSubmissionState] = useState<"idle" | "pending" | "done">("idle");
+  const [generatedStory, setGeneratedStory] = useState<GeneratedStory | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [storageWarning, setStorageWarning] = useState<string | null>(null);
+  const [generationService] = useState(() => injectedGenerationService ?? new StoryGenerationService());
 
   const handleCreateSubmit = async (params: StoryParams) => {
-    setSubmissionState("pending");
-    await Promise.resolve(params);
-    setSubmissionState("done");
+    setSubmitError(null);
+    setStorageWarning(null);
+
+    try {
+      const story = await generationService.generate({ params });
+      setGeneratedStory(story);
+      setActiveTab("create");
+
+      try {
+        await persistStory(story);
+      } catch {
+        setStorageWarning("A história foi gerada, mas não conseguimos salvar localmente nesta tentativa.");
+      }
+    } catch (error) {
+      setGeneratedStory(null);
+      setSubmitError(toStoryGenerationUserMessage(error));
+    }
+  };
+
+  const handleDraftChange = (next: StoryDraftState) => {
+    if (submitError) {
+      setSubmitError(null);
+    }
+    setDraftStory(next);
   };
 
   return (
@@ -86,16 +122,37 @@ export function TabShell() {
           aria-labelledby={`tab-${activeTab}`}
         >
           {activeTab === "create" && (
-            <CreateTab draft={draftStory} onDraftChange={setDraftStory} onSubmit={handleCreateSubmit} />
+            generatedStory ? (
+              <StoryResult
+                story={generatedStory}
+                onCreateAnother={() => {
+                  setGeneratedStory(null);
+                  setSubmitError(null);
+                }}
+              />
+            ) : (
+              <CreateTab
+                draft={draftStory}
+                onDraftChange={handleDraftChange}
+                onSubmit={handleCreateSubmit}
+                submitError={submitError}
+              />
+            )
           )}
           {activeTab === "history" && <HistoryTab />}
           {activeTab === "favorites" && <FavoritesTab />}
           {activeTab === "settings" && <SettingsTab />}
         </section>
 
-        {submissionState === "done" && (
+        {generatedStory && (
           <footer className="submit-feedback" role="status" aria-live="polite">
-            História enviada para geração.
+            História gerada com sucesso.
+          </footer>
+        )}
+
+        {storageWarning && (
+          <footer className="storage-warning" role="status" aria-live="polite">
+            {storageWarning}
           </footer>
         )}
       </div>

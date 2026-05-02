@@ -15,6 +15,9 @@ Frontend. This feature owns the reader/player UI state. TTS provider integration
 Stitch screen:
 Use `Resultado da História` from project `15204996058292121576`, screen `2f52b97627124271b828d2781e99ae86`, as the reader/player visual reference.
 
+Asset fallback:
+When the Stitch MCP fetch is unavailable or incomplete, use `external-assets/stitch/stitch_contos_de_ninar_control_panel/resultado_da_hist_ria/` as the fallback source for the reader/player reference. The expected source files are `screen.png` and `code.html`; imported copies live in `frontend/assets/stitch/2f52b97627124271b828d2781e99ae86/`.
+
 ## User Flow
 
 1. The parent opens a generated or saved story.
@@ -30,6 +33,7 @@ Use `Resultado da História` from project `15204996058292121576`, screen `2f52b9
 - If browser-native speech synthesis is used during prototyping, isolate it behind a frontend service.
 - Use the browser audio output selected by the operating system when playback exists.
 - Reader/player controls should align with the Stitch Result screen and remain functional when audio is unavailable.
+- Product decision: reader/player visual parity should use the Stitch MCP reference when available; if MCP fetching fails, continue with the checked-in `external-assets/` fallback.
 
 ## Implementation Plan
 
@@ -43,6 +47,7 @@ Use `Resultado da História` from project `15204996058292121576`, screen `2f52b9
 ## TODO
 
 - [ ] Reuse the extracted `Resultado da História` reference for reader/player layout.
+- [ ] If MCP export is unavailable, import the Result reference from `external-assets/stitch/stitch_contos_de_ninar_control_panel/resultado_da_hist_ria/`.
 - [ ] Create reader/player state types.
 - [ ] Create `story-player` component.
 - [ ] Add play, pause, resume, and restart.

@@ -15,6 +15,9 @@ Frontend. This feature covers UI fields, option controls, client-side validation
 Stitch screen:
 `Criar História (Restaurada)` from project `15204996058292121576`, screen `8a422bd8840044ab9b40c7f313011b02`.
 
+Asset fallback:
+When the Stitch MCP fetch is unavailable or incomplete, use `external-assets/stitch/stitch_contos_de_ninar_control_panel/criar_hist_ria_restaurada/` as the fallback source for the Create screen reference. The expected source files are `screen.png` and `code.html`; imported copies live in `frontend/assets/stitch/8a422bd8840044ab9b40c7f313011b02/`.
+
 ## User Flow
 
 1. The parent opens Create.
@@ -33,6 +36,7 @@ Stitch screen:
 - Special detail is optional and character-limited.
 - User-facing labels, actions, and helper copy should be Portuguese-first when implementing the Stitch screen.
 - The Create screen should match the extracted Stitch layout, spacing, and control hierarchy.
+- Product decision: Create visual parity should use the Stitch MCP reference when available; if MCP fetching fails, continue with the checked-in `external-assets/` fallback rather than pausing implementation.
 - Product decision: `specialDetail` maximum length is fixed at 160 characters for MVP.
 - Product decision: age accepts only whole numbers from 1 to 12; decimal input must show a dedicated integer-only error.
 - Product decision: after valid submit, keep the user in Create with loading feedback until generation resolves; move to Result only after success.
@@ -56,6 +60,7 @@ Affected areas:
 
 Dependencies:
 - The Stitch reference must be downloaded before final layout matching.
+- If Stitch MCP export is unavailable, import the Create reference from `external-assets/stitch/stitch_contos_de_ninar_control_panel/criar_hist_ria_restaurada/`.
 - Story Generation needs a typed `onSubmit(params: StoryParams)` handoff or equivalent app-shell callback.
 - Option values should continue to match the domain enum values already defined in `frontend/src/domain/story.ts`.
 - `specialDetail` max length is fixed at 160 characters for MVP.
@@ -113,6 +118,7 @@ Open technical questions:
 ## TODO
 
 - [X] Download `Criar História (Restaurada)` Stitch references into `frontend/assets/stitch/8a422bd8840044ab9b40c7f313011b02/`.
+- [X] Confirm `Criar História (Restaurada)` fallback files exist under `external-assets/stitch/stitch_contos_de_ninar_control_panel/criar_hist_ria_restaurada/`.
 - [X] Create `story-form` component.
 - [X] Add fixed option lists.
 - [X] Update visible form copy to Portuguese-first labels.

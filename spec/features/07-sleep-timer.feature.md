@@ -12,6 +12,9 @@ Should have for MVP validation.
 Development area:
 Frontend. This feature controls local playback state, timer state, and fade-out behavior when playback exists.
 
+Asset fallback:
+This feature does not require a separate Stitch export. When timer controls are laid onto the Result/reader surface and the Stitch MCP fetch is unavailable, use the checked-in fallback assets under `external-assets/stitch/stitch_contos_de_ninar_control_panel/resultado_da_hist_ria/`.
+
 ## User Flow
 
 1. The parent opens a story.
@@ -25,6 +28,7 @@ Frontend. This feature controls local playback state, timer state, and fade-out 
 - Bedtime stories should suggest using the timer only when playback is available.
 - Fade out during the last 2 minutes for timed options.
 - Stopping the timer should restore normal volume.
+- Product decision: timer UI alignment with the Result surface should continue from the checked-in `external-assets/` fallback if MCP export is unavailable.
 
 ## Implementation Plan
 

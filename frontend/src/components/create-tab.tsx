@@ -16,6 +16,7 @@ type CreateTabProps = {
   draft: StoryDraftState;
   onDraftChange: (next: StoryDraftState) => void;
   onSubmit: (params: StoryParams) => Promise<void> | void;
+  submitError?: string | null;
 };
 
 type StoryFormField = "childName" | "childAge" | "specialDetail" | "form";
@@ -102,7 +103,7 @@ export function validateStoryParams(draft: StoryDraftState) {
   return { errors: {}, params };
 }
 
-export function CreateTab({ draft, onDraftChange, onSubmit }: CreateTabProps) {
+export function CreateTab({ draft, onDraftChange, onSubmit, submitError }: CreateTabProps) {
   const [errors, setErrors] = useState<Partial<Record<StoryFormField, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -289,9 +290,19 @@ export function CreateTab({ draft, onDraftChange, onSubmit }: CreateTabProps) {
         >
           {isSubmitting ? "Gerando história..." : "✦ Gerar História"}
         </button>
+        {isSubmitting && (
+          <span className="field-help" role="status" aria-live="polite">
+            Estamos criando a história com cuidado para a idade informada.
+          </span>
+        )}
         {errors.form && (
           <span className="field-error" role="alert">
             {errors.form}
+          </span>
+        )}
+        {submitError && !errors.form && (
+          <span className="field-error" role="alert">
+            {submitError}
           </span>
         )}
       </form>

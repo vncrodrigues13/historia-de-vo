@@ -29,6 +29,17 @@ Screens:
 | Histórico de Histórias | `b610fe1a118c47e9a25a537c1d1e6230` | `05-local-story-library.feature.md` |
 | Configurações 2 | `ce4a28b488d7451e90827057767e6fb9` | `08-user-settings.feature.md` |
 
+## Asset Fallback Source
+
+If the Stitch MCP fetch/export is unavailable, use the checked-in `external-assets/` folders as the source of truth for screen image/code references:
+
+| Screen | Fallback folder |
+|---|---|
+| Criar História (Restaurada) | `external-assets/stitch/stitch_contos_de_ninar_control_panel/criar_hist_ria_restaurada/` |
+| Resultado da História | `external-assets/stitch/stitch_contos_de_ninar_control_panel/resultado_da_hist_ria/` |
+| Histórico de Histórias | `external-assets/stitch/stitch_contos_de_ninar_control_panel/hist_rico_de_hist_rias/` |
+| Configurações 2 | `external-assets/stitch/stitch_contos_de_ninar_control_panel/configura_es_2/` |
+
 ## Extraction Commands
 
 Use the Stitch screen export output to fill the hosted URLs, then download each screen image and code snapshot into the repo.
@@ -52,6 +63,7 @@ curl -L "$CONFIGURACOES_2_CODE_URL" -o frontend/assets/stitch/ce4a28b488d7451e90
 ```
 
 The Stitch MCP call returned `Auth required` during PM spec work, so the hosted URLs still need to be copied from an authenticated Stitch export before these commands can run.
+If that authenticated export remains unavailable, implementation should continue from the checked-in `external-assets/` fallback rather than blocking screen work.
 
 ## User Flow
 
@@ -64,6 +76,7 @@ The Stitch MCP call returned `Auth required` during PM spec work, so the hosted 
 ## Requirements
 
 - Treat Stitch as the visual source of truth for layout, spacing, labels, color, and component hierarchy.
+- If Stitch MCP export is unavailable, treat the checked-in `external-assets/` copies as the working source of truth for those same screens.
 - Implement the four screens as real Next.js UI states, not static screenshots.
 - Keep the app Portuguese-first for user-facing copy.
 - Reuse shared shell, navigation, form controls, list items, and action buttons where the Stitch screens share patterns.
@@ -82,6 +95,7 @@ The Stitch MCP call returned `Auth required` during PM spec work, so the hosted 
 ## TODO
 
 - [ ] Download Stitch image and code exports for all four screens.
+- [ ] If Stitch MCP export is unavailable, copy the four fallback screen/code pairs from `external-assets/stitch/stitch_contos_de_ninar_control_panel/` into `frontend/assets/stitch/<screen-id>/`.
 - [ ] Add extracted files under `frontend/assets/stitch/<screen-id>/`.
 - [ ] Update shared app shell to match the Stitch control panel.
 - [ ] Implement `Criar História (Restaurada)` in the Create flow.

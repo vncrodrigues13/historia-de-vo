@@ -15,6 +15,9 @@ Frontend. This feature stores local preferences and applies them to story creati
 Stitch screen:
 `Configurações 2` from project `15204996058292121576`, screen `ce4a28b488d7451e90827057767e6fb9`.
 
+Asset fallback:
+When the Stitch MCP fetch is unavailable or incomplete, use `external-assets/stitch/stitch_contos_de_ninar_control_panel/configura_es_2/` as the fallback source for the Settings screen reference. The expected source files are `screen.png` and `code.html`; imported copies live in `frontend/assets/stitch/ce4a28b488d7451e90827057767e6fb9/`.
+
 ## User Flow
 
 1. The parent opens Settings.
@@ -31,6 +34,7 @@ Stitch screen:
 - Use safe defaults when no settings exist.
 - Settings screen should match the extracted Stitch layout, section grouping, controls, and save feedback.
 - User-facing settings copy should be Portuguese-first.
+- Product decision: Settings visual parity should use the Stitch MCP reference when available; if MCP fetching fails, continue with the checked-in `external-assets/` fallback.
 
 ## Implementation Plan
 
@@ -43,6 +47,7 @@ Stitch screen:
 ## TODO
 
 - [ ] Download `Configurações 2` Stitch references into `frontend/assets/stitch/ce4a28b488d7451e90827057767e6fb9/`.
+- [ ] If MCP export is unavailable, import the Settings reference from `external-assets/stitch/stitch_contos_de_ninar_control_panel/configura_es_2/`.
 - [ ] Implement `settings-storage`.
 - [ ] Create Settings section.
 - [ ] Match the Stitch Settings screen layout, control grouping, and save feedback.
