@@ -6,22 +6,22 @@ describe("TabShell", () => {
   it("renders all MVP tabs", () => {
     render(<TabShell />);
 
-    expect(screen.getByRole("tab", { name: "Create" })).toBeInTheDocument();
-    expect(screen.getByRole("tab", { name: "History" })).toBeInTheDocument();
-    expect(screen.getByRole("tab", { name: "Favorites" })).toBeInTheDocument();
-    expect(screen.getByRole("tab", { name: "Settings" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Criar" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Histórico" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Favoritas" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Configurações" })).toBeInTheDocument();
   });
 
   it("preserves current story draft when switching tabs", async () => {
     const user = userEvent.setup();
     render(<TabShell />);
 
-    const childNameInput = screen.getByLabelText("Child name");
+    const childNameInput = screen.getByLabelText("Nome da criança");
     await user.type(childNameInput, "Luna");
 
-    await user.click(screen.getByRole("tab", { name: "History" }));
-    await user.click(screen.getByRole("tab", { name: "Create" }));
+    await user.click(screen.getByRole("tab", { name: "Histórico" }));
+    await user.click(screen.getByRole("tab", { name: "Criar" }));
 
-    expect(screen.getByLabelText("Child name")).toHaveValue("Luna");
+    expect(screen.getByLabelText("Nome da criança")).toHaveValue("Luna");
   });
 });

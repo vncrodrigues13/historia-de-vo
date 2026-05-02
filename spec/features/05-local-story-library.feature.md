@@ -10,37 +10,44 @@ Priority:
 Must have.
 
 Development area:
-Frontend. This feature uses browser storage and UI screens only; no server API is required for the MVP.
+Frontend. This feature uses browser storage and UI screens only.
+
+Stitch screen:
+`Histórico de Histórias` from project `15204996058292121576`, screen `b610fe1a118c47e9a25a537c1d1e6230`.
 
 ## User Flow
 
 1. A generated story is saved automatically.
 2. The parent opens History.
 3. The parent sees saved stories newest first.
-4. The parent opens one story and can narrate it again.
+4. The parent opens one story in the reader.
 5. The parent can delete a story after confirmation.
 
 ## Requirements
 
 - Store stories locally in IndexedDB.
-- Save story text, parameters, voice, speed, favorite flag, and timestamps.
-- Do not store audio in the MVP.
+- Save story text, parameters, favorite flag, and timestamps.
 - List stories in reverse chronological order.
 - Confirm before deleting.
+- History screen should match the extracted Stitch list layout, empty state, and story item actions.
+- History copy and dates should be Portuguese-first.
 
 ## Implementation Plan
 
-1. Create browser storage service.
-2. Save generated stories automatically.
-3. Build the History list.
-4. Open a saved story in the reader.
-5. Add delete with confirmation.
+1. Extract the Stitch image and code reference for `Histórico de Histórias`.
+2. Create browser storage service.
+3. Save generated stories automatically.
+4. Build the History list to match the Stitch reference.
+5. Open a saved story in the reader.
+6. Add delete with confirmation.
 
 ## TODO
 
+- [ ] Download `Histórico de Histórias` Stitch references into `frontend/assets/stitch/b610fe1a118c47e9a25a537c1d1e6230/`.
 - [ ] Implement `story-storage`.
 - [ ] Save generated stories.
 - [ ] Create History section.
+- [ ] Match the Stitch History screen layout, item states, and actions.
 - [ ] Open saved story in reader.
 - [ ] Delete story by id after confirmation.
 - [ ] Handle storage unavailable errors.
@@ -59,5 +66,4 @@ Frontend. This feature uses browser storage and UI screens only; no server API i
 ## Out of Scope
 
 - Cloud backup.
-- Audio file storage.
 - Sharing stories.

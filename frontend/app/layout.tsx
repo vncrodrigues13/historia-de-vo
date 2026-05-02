@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Historias de Vo",
-  description: "AI bedtime story MVP"
+  title: "Contos de Ninar",
+  description: "MVP de histórias de ninar personalizadas"
 };
 
 type RootLayoutProps = Readonly<{
@@ -12,9 +12,8 @@ type RootLayoutProps = Readonly<{
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <body>{children}</body>
     </html>
   );
 }
-

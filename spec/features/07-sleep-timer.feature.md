@@ -1,16 +1,16 @@
 # Feature: Sleep Timer
 
 Goal:
-Stop narration automatically for bedtime listening.
+Stop available local playback automatically for bedtime use.
 
 User value:
-The parent can start a story and let the audio end gently.
+The parent can start supported playback and let it end gently. If playback is unavailable in the MVP, this feature remains deferred.
 
 Priority:
 Should have for MVP validation.
 
 Development area:
-Frontend. This feature controls browser audio playback state, timer state, and fade-out behavior.
+Frontend. This feature controls local playback state, timer state, and fade-out behavior when playback exists.
 
 ## User Flow
 
@@ -22,14 +22,14 @@ Frontend. This feature controls browser audio playback state, timer state, and f
 ## Requirements
 
 - Timer options: 10 minutes, 20 minutes, 30 minutes, end of story.
-- Bedtime stories should suggest using the timer.
+- Bedtime stories should suggest using the timer only when playback is available.
 - Fade out during the last 2 minutes for timed options.
 - Stopping the timer should restore normal volume.
 
 ## Implementation Plan
 
 1. Create a timer state model.
-2. Connect timer state to the audio player.
+2. Connect timer state to the story player when playback is available.
 3. Add timer controls near playback.
 4. Apply fade-out before stopping.
 
@@ -51,7 +51,7 @@ Frontend. This feature controls browser audio playback state, timer state, and f
 
 ## Open Questions
 
-- Should fade-out use the native audio volume or Web Audio API?
+- Should fade-out use the native audio volume or Web Audio API if browser-native playback is enabled?
 
 ## Out of Scope
 

@@ -10,7 +10,7 @@ Priority:
 Must have.
 
 Development area:
-Shared. This feature creates the `frontend/` app base, the `backend/` API base, environment examples, layout shell, and domain types used by each side.
+Frontend. This feature creates the `frontend/` app base, local environment examples, layout shell, and domain types used by the browser app.
 
 ## User Flow
 
@@ -20,86 +20,79 @@ Shared. This feature creates the `frontend/` app base, the `backend/` API base, 
 
 ## Requirements
 
-- Use TypeScript for both frontend and backend projects.
+- Use TypeScript for the frontend project.
 - Use `npm` as the canonical package manager.
-- Keep `frontend/` and `backend/` as completely independent projects, each with its own workspace and configuration.
 - Use Next.js with TypeScript for the frontend app.
-- Use NestJS with TypeScript for the backend API.
 - Use Jest for tests and ESLint for linting.
 - Target the latest Node.js LTS line, Node.js 24.x.
 - Use English for the initial UI copy.
-- Add project scripts for dev, test, build, and lint in the relevant project folders.
-- Add `backend/.env.example` for server-side provider configuration.
-- Use OpenAI API as the first LLM provider.
-- Do not implement TTS in this foundation feature; the first implementation should generate text output only.
-- Create the base domain types from `project-kickoff.md` for stories, settings, voices, and timers inside the project that uses them.
+- Add project scripts for dev, test, build, and lint in `frontend/`.
+- Add `frontend/.env.example` for local-only provider configuration used during prototyping.
+- Use OpenAI API as the first LLM provider during local testing.
+- Do not implement provider-backed TTS in this foundation feature; the first implementation should generate text output only.
+- Create the base domain types from `project-kickoff.md` for stories, settings, and timers inside the project that uses them.
 - Keep the first layout as one responsive page with internal tabs.
 - Preserve the generated story state when switching between tabs.
-- Expose a backend health route at `/health`.
 
 ## Implementation Plan
 
 1. Scaffold the frontend app in `frontend/`.
-2. Scaffold the backend API in `backend/`.
-3. Add configuration and scripts in each project.
-4. Create the main frontend tab layout.
-5. Add domain/request types where each project needs them.
-6. Add placeholder sections for the first MVP screens.
+2. Add frontend configuration and scripts.
+3. Create the main frontend tab layout.
+4. Add domain/request types where the frontend needs them.
+5. Add placeholder sections for the first MVP screens.
 
 ## Tech Lead Overview
 
 Technical approach:
-Create two independent TypeScript app foundations with clear runtime boundaries: the browser app in `frontend/` and the API app in `backend/`. Keep provider credentials and provider calls server-side only. For the first implementation, prefer simple local development commands and avoid a shared package until frontend/backend contracts stabilize; duplicate only the small request/response/domain types each side actually needs.
+Create a single TypeScript frontend foundation for a local-first MVP. Keep provider integration behind frontend service modules so UI components do not call providers directly. For the first implementation, prefer simple local development commands and avoid a dedicated backend until the product needs TTS, remote persistence, user accounts, or public deployment.
 
 Affected areas:
-Repository configuration, `frontend/` app shell, `backend/` API shell, environment examples, local scripts, and initial type definitions.
+Repository configuration, `frontend/` app shell, local environment examples, frontend scripts, and initial type definitions.
 
 Dependencies:
-- Package manager and app frameworks are selected: npm, Next.js frontend, NestJS backend.
+- Package manager and app framework are selected: npm and Next.js frontend.
 - Frontend should include a test runner, linter, and build command from the start.
-- Backend should include TypeScript runtime/build tooling, request validation, Jest tests, and ESLint.
-- `backend/.env.example` should document required backend-only provider keys without real values.
-- TTS provider selection is deferred and should not block the text-generation foundation.
+- `frontend/.env.example` should document local-only provider keys without real values.
+- TTS provider selection and backend architecture are deferred and should not block the text-generation foundation.
 
 Engineering tasks:
-- [x] Select and document the package manager plus frontend/backend framework choices.
-- [x] Add root-level setup notes that point to the frontend and backend commands.
+- [x] Select and document the package manager plus frontend framework choice.
+- [x] Add root-level setup notes that point to the frontend commands.
 - [x] Scaffold `frontend/` with responsive tab shell state for Create, History, Favorites, and Settings.
-- [x] Scaffold `backend/` with NestJS, a `/health` route, and a clear place for future provider adapters.
-- [x] Add environment loading on the backend and keep frontend configuration free of API secrets.
-- [x] Define minimal story, settings, voice, timer, and request/response types in the projects that consume them.
-- [x] Add baseline tests that verify the frontend shell renders and the backend health route responds.
+- [x] Remove the dedicated `backend/` requirement from the MVP architecture documentation.
+- [ ] Add local environment documentation for frontend-only provider testing.
+- [x] Define minimal story, settings, timer, and request/response types in the frontend.
+- [x] Add baseline tests that verify the frontend shell renders.
 
 Testing notes:
-Validate that both apps build, lint, and test independently. The frontend test should assert all four MVP tabs are present and tab switching preserves shell state. The backend test should assert the health route works without provider credentials.
+Validate that the frontend builds, lints, and tests independently. The frontend test should assert all four MVP tabs are present and tab switching preserves shell state.
 
 Risks:
 - Unresolved framework/package-manager choices can create avoidable churn during the first scaffold.
-- Duplicating types locally is acceptable for the MVP, but request/response contracts should be reviewed before generation and narration features depend on them.
-- Frontend environment handling must not accidentally expose LLM or TTS provider keys.
+- Calling an LLM from local frontend code is acceptable only for local testing; revisit this before public deployment.
+- Provider-specific code should stay isolated from React components so a backend can be introduced later without a UI rewrite.
 
 Open technical questions:
-- Decision: `backend/.env.example` includes only current OpenAI/LLM variables; deferred TTS placeholders were omitted for this foundation feature.
+- Decision: the MVP does not require a dedicated backend while it remains local-only and text-generation focused.
 
 ## TODO
 
 - [x] Create the frontend TypeScript scaffold in `frontend/`.
-- [x] Create the backend TypeScript scaffold in `backend/`.
-- [x] Add `dev`, `test`, `build`, and `lint` scripts for each project.
-- [x] Add `backend/.env.example`.
+- [x] Add `dev`, `test`, `build`, and `lint` scripts for the frontend project.
+- [ ] Add `frontend/.env.example`.
 - [x] Create frontend story types where the UI needs them.
-- [x] Create backend story request and response types where the API needs them.
 - [x] Build the tab navigation shell.
 
 ## Acceptance Seeds
 
 - The app starts locally with the documented dev command.
 - The four MVP sections are visible.
-- No API key is exposed in client-side code.
+- Local provider configuration is documented for prototype-only use.
 
 ## Open Questions
 
-- Decision: deferred TTS placeholders are omitted until a TTS provider is selected.
+- Decision: deferred TTS and backend placeholders are omitted until those capabilities are selected.
 
 ## Out of Scope
 

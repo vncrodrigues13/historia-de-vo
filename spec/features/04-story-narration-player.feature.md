@@ -1,62 +1,69 @@
 # Feature: Story Narration Player
 
 Goal:
-Convert a generated story into audio and play it in the browser.
+Provide a frontend reading and playback surface for generated stories, with provider-backed audio deferred until a later phase.
 
 User value:
-The child can listen without interacting with the screen.
+The child can follow the story in a focused reader, and the app can later add listening without changing the saved story model.
 
 Priority:
-Must have.
+Should have after text generation is usable.
 
 Development area:
-Full stack. Backend owns the narration API and TTS adapter. Frontend owns voice and speed controls, audio playback, and player state.
+Frontend. This feature owns the reader/player UI state. TTS provider integration and dedicated narration APIs are out of scope for the current MVP.
+
+Stitch screen:
+Use `Resultado da História` from project `15204996058292121576`, screen `2f52b97627124271b828d2781e99ae86`, as the reader/player visual reference.
 
 ## User Flow
 
 1. The parent opens a generated or saved story.
-2. The parent chooses voice and speed.
-3. The app generates narration audio.
-4. The parent can play, pause, resume, and restart.
+2. The parent opens the focused reader/player surface.
+3. The parent can start, pause, resume, and restart supported local playback behavior when available.
+4. If audio is unavailable, the story remains readable without a failed provider flow.
 
 ## Requirements
 
-- Create `POST /api/stories/narrate`.
-- Use a TTS provider through an adapter.
-- Support soft female, soft male, animated female, and animated male voice options.
-- Support slow, normal, and fast speed.
-- Use the browser audio output selected by the operating system.
+- Create a frontend reader/player component for generated and saved stories.
+- Keep playback state local to the frontend.
+- Do not require provider-backed TTS for the current MVP.
+- If browser-native speech synthesis is used during prototyping, isolate it behind a frontend service.
+- Use the browser audio output selected by the operating system when playback exists.
+- Reader/player controls should align with the Stitch Result screen and remain functional when audio is unavailable.
 
 ## Implementation Plan
 
-1. Validate narration input on the server.
-2. Call the TTS provider through an adapter.
-3. Return playable audio data to the client.
-4. Create an audio player component.
-5. Handle loading and provider errors.
+1. Review the extracted Stitch Result screen controls.
+2. Create a focused reader/player component.
+3. Model local playback state: idle, playing, paused, ended, and unavailable.
+4. Optionally wrap browser-native speech synthesis in a frontend service for prototype playback.
+5. Handle unavailable playback without blocking reading.
+6. Keep the saved story model independent from any future TTS provider.
 
 ## TODO
 
-- [ ] Create narration request and response types.
-- [ ] Implement `tts-provider` adapter.
-- [ ] Implement `POST /api/stories/narrate`.
-- [ ] Create `audio-player` component.
+- [ ] Reuse the extracted `Resultado da História` reference for reader/player layout.
+- [ ] Create reader/player state types.
+- [ ] Create `story-player` component.
 - [ ] Add play, pause, resume, and restart.
-- [ ] Add voice and speed controls.
+- [ ] Add unavailable playback state.
+- [ ] Keep future voice and speed controls out of the MVP unless browser-native playback is enabled.
 
 ## Acceptance Seeds
 
-- A generated story can be narrated.
+- A generated story can be opened in the reader/player.
 - Play, pause, resume, and restart work.
-- Changing speed affects narration request or playback.
-- TTS errors show a recoverable message.
+- Unavailable playback shows a recoverable local message and does not hide the story text.
+- The implementation does not require a backend endpoint.
 
 ## Open Questions
 
-- Should the API return base64 audio or a temporary file URL?
+- Should the MVP use browser-native speech synthesis as a temporary local playback option, or keep this as reader-only until TTS is selected?
 
 ## Out of Scope
 
+- Dedicated narration API.
+- Provider-backed TTS.
 - Exporting MP3 files.
 - Background music.
 - Direct Alexa or Google Home integration.
