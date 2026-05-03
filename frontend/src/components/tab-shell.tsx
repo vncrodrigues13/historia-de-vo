@@ -6,13 +6,19 @@ import { FavoritesTab } from "@/components/favorites-tab";
 import { HistoryTab } from "@/components/history-tab";
 import { SettingsTab } from "@/components/settings-tab";
 import { StoryResult } from "@/components/story-result";
-import type { StoryParams } from "@/domain/story";
+import type { UserSettings } from "@/domain/settings";
+import type { SavedStory, StoryParams } from "@/domain/story";
 import type { GeneratedStory } from "@/domain/story-generation";
 import {
   StoryGenerationService,
   toStoryGenerationUserMessage
 } from "@/services/story-generation/story-generation.service";
-import { persistGeneratedStory } from "@/services/story-generation/story-persistence";
+import {
+  listSavedStories,
+  persistGeneratedStory,
+  toggleFavorite
+} from "@/services/story-generation/story-persistence";
+import { loadUserSettings } from "@/services/settings-storage";
 
 type AppTab = "create" | "history" | "favorites" | "settings";
 
@@ -37,27 +43,62 @@ const mobileTabIcons: Record<AppTab, string> = {
   settings: "⚙"
 };
 
-const initialDraft: StoryDraftState = {
-  childName: "",
-  childAge: "6",
-  theme: "adventure",
-  storyType: "bedtime",
-  duration: "short",
-  specialDetail: ""
-};
+function createInitialDraft(settings: UserSettings): StoryDraftState {
+  return {
+    childName: "",
+    childAge: "6",
+    theme: "adventure",
+    storyType: settings.defaultStoryType,
+    duration: settings.defaultStoryDuration,
+    specialDetail: ""
+  };
+}
 
 type TabShellProps = {
   generationService?: StoryGenerationService;
-  persistStory?: (story: GeneratedStory) => Promise<void>;
+  persistStory?: (story: GeneratedStory, settings: UserSettings) => Promise<void>;
 };
 
 export function TabShell({ generationService: injectedGenerationService, persistStory = persistGeneratedStory }: TabShellProps) {
+  const [userSettings, setUserSettings] = useState<UserSettings>(() => loadUserSettings());
   const [activeTab, setActiveTab] = useState<AppTab>("create");
-  const [draftStory, setDraftStory] = useState<StoryDraftState>(initialDraft);
+  const [draftStory, setDraftStory] = useState<StoryDraftState>(() => createInitialDraft(userSettings));
   const [generatedStory, setGeneratedStory] = useState<GeneratedStory | null>(null);
+  const [savedStories, setSavedStories] = useState<SavedStory[]>(() => listSavedStories());
+  const [favoriteInFlightIds, setFavoriteInFlightIds] = useState<Set<string>>(() => new Set());
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [storageWarning, setStorageWarning] = useState<string | null>(null);
   const [generationService] = useState(() => injectedGenerationService ?? new StoryGenerationService());
+
+  const refreshSavedStories = () => {
+    setSavedStories(listSavedStories());
+  };
+
+  const toggleStoryFavorite = async (story: SavedStory) => {
+    if (favoriteInFlightIds.has(story.id)) {
+      return;
+    }
+
+    setFavoriteInFlightIds((current) => new Set(current).add(story.id));
+    setStorageWarning(null);
+
+    try {
+      const result = await toggleFavorite(story.id);
+      if (result.status !== "updated") {
+        setStorageWarning("Não foi possível atualizar favoritos agora. Tente novamente.");
+        return;
+      }
+      refreshSavedStories();
+    } catch {
+      setStorageWarning("Não foi possível atualizar favoritos agora. Tente novamente.");
+    } finally {
+      setFavoriteInFlightIds((current) => {
+        const next = new Set(current);
+        next.delete(story.id);
+        return next;
+      });
+    }
+  };
 
   const handleCreateSubmit = async (params: StoryParams) => {
     setSubmitError(null);
@@ -69,7 +110,8 @@ export function TabShell({ generationService: injectedGenerationService, persist
       setActiveTab("create");
 
       try {
-        await persistStory(story);
+        await persistStory(story, userSettings);
+        refreshSavedStories();
       } catch {
         setStorageWarning("A história foi gerada, mas não conseguimos salvar localmente nesta tentativa.");
       }
@@ -85,6 +127,10 @@ export function TabShell({ generationService: injectedGenerationService, persist
     }
     setDraftStory(next);
   };
+
+  const generatedSavedStory = generatedStory
+    ? savedStories.find((story) => story.id === generatedStory.id)
+    : null;
 
   return (
     <main className="page-shell">
@@ -125,9 +171,19 @@ export function TabShell({ generationService: injectedGenerationService, persist
             generatedStory ? (
               <StoryResult
                 story={generatedStory}
+                canToggleFavorite={Boolean(generatedSavedStory)}
+                isFavorite={Boolean(generatedSavedStory?.favorite)}
+                isFavoriteUpdating={Boolean(generatedSavedStory && favoriteInFlightIds.has(generatedSavedStory.id))}
+                onToggleFavorite={() => {
+                  if (!generatedSavedStory) {
+                    return Promise.resolve();
+                  }
+                  return toggleStoryFavorite(generatedSavedStory);
+                }}
                 onCreateAnother={() => {
                   setGeneratedStory(null);
                   setSubmitError(null);
+                  setDraftStory(createInitialDraft(userSettings));
                 }}
               />
             ) : (
@@ -139,9 +195,26 @@ export function TabShell({ generationService: injectedGenerationService, persist
               />
             )
           )}
-          {activeTab === "history" && <HistoryTab />}
-          {activeTab === "favorites" && <FavoritesTab />}
-          {activeTab === "settings" && <SettingsTab />}
+          {activeTab === "history" && (
+            <HistoryTab
+              stories={savedStories}
+              favoriteInFlightIds={favoriteInFlightIds}
+              onToggleFavorite={toggleStoryFavorite}
+            />
+          )}
+          {activeTab === "favorites" && (
+            <FavoritesTab
+              stories={savedStories}
+              favoriteInFlightIds={favoriteInFlightIds}
+              onToggleFavorite={toggleStoryFavorite}
+            />
+          )}
+          {activeTab === "settings" && (
+            <SettingsTab
+              settings={userSettings}
+              onSettingsSaved={(settings) => setUserSettings(settings)}
+            />
+          )}
         </section>
 
         {generatedStory && (

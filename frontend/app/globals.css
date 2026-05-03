@@ -188,6 +188,7 @@ body {
 
 .story-form input:focus,
 .story-form textarea:focus,
+.settings-select-field select:focus,
 .chip-button:focus-visible,
 .segmented-control button:focus-visible,
 .primary-button:focus-visible,
@@ -312,6 +313,157 @@ body {
   font-size: 0.88rem;
   color: var(--error);
   font-weight: 600;
+}
+
+.settings-screen {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.settings-header {
+  margin-bottom: 4rem;
+}
+
+.settings-sections {
+  display: grid;
+  gap: 3.25rem;
+}
+
+.settings-section-title {
+  margin: 0 0 1.5rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.55rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.settings-card {
+  display: grid;
+  gap: 2.4rem;
+  border: 1px solid var(--outline-variant);
+  border-radius: 12px;
+  background: #fff8f5;
+  padding: 2rem;
+}
+
+.settings-field {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.settings-field legend,
+.settings-select-field {
+  color: color-mix(in srgb, var(--text) 75%, transparent);
+  font-size: 0.86rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.settings-select-field {
+  display: grid;
+  max-width: 28rem;
+  gap: 0.5rem;
+}
+
+.settings-select-field select {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--outline);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 1.05rem;
+  padding: 0.75rem 0;
+  outline: none;
+}
+
+.settings-about {
+  gap: 0.55rem;
+}
+
+.settings-about p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.settings-about p:first-child {
+  font-weight: 700;
+}
+
+.settings-about p:last-child {
+  color: color-mix(in srgb, var(--text) 72%, transparent);
+}
+
+.settings-save-button {
+  display: block;
+  width: min(100%, 28rem);
+}
+
+.settings-feedback {
+  margin: 0.85rem 0 0;
+  color: var(--primary-hover);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.settings-feedback-error {
+  color: var(--error);
+}
+
+.story-list {
+  margin-top: 2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.story-list-empty {
+  margin-top: 2rem;
+  font-size: 1rem;
+  color: color-mix(in srgb, var(--text) 78%, transparent);
+}
+
+.story-list-card {
+  border: 1px solid var(--outline-variant);
+  border-radius: 12px;
+  background: #fff8f0;
+  padding: 1.1rem 1.2rem;
+}
+
+.story-list-title {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.25rem;
+}
+
+.story-list-text {
+  margin: 0.7rem 0 0;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.story-list-actions {
+  margin-top: 0.9rem;
+}
+
+.story-favorite-action {
+  min-height: 2.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--outline-variant);
+  background: var(--input-bg);
+  color: var(--text);
+  padding: 0.4rem 0.9rem;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.story-favorite-action:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .result-screen {
@@ -487,6 +639,20 @@ body {
 
   .result-actions {
     flex-direction: column;
+  }
+
+  .settings-header {
+    margin-bottom: 2.8rem;
+    text-align: center;
+  }
+
+  .settings-sections {
+    gap: 2.5rem;
+  }
+
+  .settings-card {
+    gap: 1.8rem;
+    padding: 1.25rem;
   }
 
   .result-primary-action,

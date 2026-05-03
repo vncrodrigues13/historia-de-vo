@@ -1,4 +1,5 @@
 import type { StoryParams } from "@/domain/story";
+import { StoryGenerationError } from "@/domain/story-generation";
 import type { StoryGenerationErrorCode } from "@/domain/story-generation";
 
 export type StoryProviderInput = {
@@ -12,6 +13,39 @@ export type StoryProviderOutput = {
 
 export interface StoryProviderAdapter {
   generate(input: StoryProviderInput): Promise<StoryProviderOutput>;
+}
+
+type GenerateStoryApiResponse = {
+  title?: string;
+  text?: string;
+  estimatedMinutes?: number;
+  promptVersion?: string;
+};
+
+type GenerateStoryApiError = {
+  error?: {
+    code?: StoryGenerationErrorCode;
+  };
+};
+
+function isStoryGenerationErrorCode(code: unknown): code is StoryGenerationErrorCode {
+  return (
+    code === "invalid_input" ||
+    code === "provider_unavailable" ||
+    code === "provider_malformed" ||
+    code === "empty_output" ||
+    code === "refused_output" ||
+    code === "in_flight" ||
+    code === "unknown"
+  );
+}
+
+async function readJsonResponse(response: Response): Promise<unknown> {
+  try {
+    return await response.json();
+  } catch {
+    return null;
+  }
 }
 
 function resolveThemeLabel(theme: StoryParams["theme"]): string {
@@ -68,7 +102,44 @@ export class LocalStoryProviderAdapter implements StoryProviderAdapter {
   }
 }
 
+export class HttpStoryProviderAdapter implements StoryProviderAdapter {
+  constructor(private readonly endpoint = "/api/stories/generate") {}
+
+  async generate(input: StoryProviderInput): Promise<StoryProviderOutput> {
+    let response: Response;
+
+    try {
+      response = await fetch(this.endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(input.params)
+      });
+    } catch {
+      throw new StoryGenerationError("provider_unavailable");
+    }
+
+    const payload = await readJsonResponse(response);
+
+    if (!response.ok) {
+      const apiError = payload as GenerateStoryApiError | null;
+      const code = apiError?.error?.code;
+      throw new StoryGenerationError(isStoryGenerationErrorCode(code) ? code : "provider_unavailable");
+    }
+
+    const storyPayload = payload as GenerateStoryApiResponse;
+    return {
+      rawText: JSON.stringify({
+        title: storyPayload.title,
+        text: storyPayload.text,
+        estimatedMinutes: storyPayload.estimatedMinutes,
+        promptVersion: storyPayload.promptVersion
+      })
+    };
+  }
+}
+
 export function isRetryableProviderErrorCode(code: StoryGenerationErrorCode) {
   return code === "provider_unavailable" || code === "provider_malformed" || code === "unknown";
 }
-

@@ -39,9 +39,9 @@ export type SavedStory = {
   params: StoryParams;
   voice: VoiceOption;
   speed: number;
+  sleepTimer?: SleepTimerOption;
   favorite: boolean;
   createdAt: string;
   updatedAt: string;
   promptVersion: string;
 };
-

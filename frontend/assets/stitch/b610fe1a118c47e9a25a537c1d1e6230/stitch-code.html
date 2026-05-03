@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Histórico - Contos de Ninar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&amp;family=Noto+Serif:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#ffeee2",
+                        "on-primary": "#ffffff",
+                        "on-background": "#25190e",
+                        "on-secondary-fixed": "#00210b",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-container": "#fffbff",
+                        "surface": "#fff8f5",
+                        "on-tertiary-fixed": "#201b13",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#eed6c4",
+                        "on-tertiary-fixed-variant": "#4c463c",
+                        "on-surface": "#25190e",
+                        "surface-variant": "#f6decc",
+                        "on-primary-fixed-variant": "#753311",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#2d4e33",
+                        "surface-container-low": "#fff1e8",
+                        "surface-tint": "#934a27",
+                        "tertiary-fixed": "#ece1d4",
+                        "surface-container": "#ffeadb",
+                        "surface-bright": "#fff8f5",
+                        "on-primary-container": "#fffbff",
+                        "inverse-primary": "#ffb595",
+                        "on-primary-fixed": "#351000",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "background": "#fff8f5",
+                        "on-secondary-container": "#486a4e",
+                        "secondary-container": "#c3e9c5",
+                        "primary": "#904824",
+                        "surface-container-highest": "#f6decc",
+                        "tertiary": "#625b51",
+                        "surface-container-high": "#fce4d2",
+                        "outline-variant": "#dac1b8",
+                        "outline": "#87736b",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#cfc5b8",
+                        "secondary-fixed-dim": "#aad0ad",
+                        "inverse-surface": "#3c2e22",
+                        "primary-fixed-dim": "#ffb595",
+                        "on-surface-variant": "#54433c",
+                        "primary-container": "#ae603a",
+                        "secondary-fixed": "#c6ecc8",
+                        "tertiary-container": "#7b7369",
+                        "secondary": "#44664a",
+                        "primary-fixed": "#ffdbcd",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "gutter": "16px",
+                        "md": "24px",
+                        "xs": "4px",
+                        "sm": "12px",
+                        "lg": "48px",
+                        "xl": "64px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Noto Serif"],
+                        "metadata": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "label-md": ["Manrope"],
+                        "body-md": ["Manrope"],
+                        "headline-md": ["Noto Serif"],
+                        "headline-xl": ["Noto Serif"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "400" }],
+                        "metadata": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
+                        "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-[#FAF7F2] dark:bg-stone-950 border-b border-[#E8DDD0] dark:border-stone-800 flex justify-between items-center max-w-[900px] mx-auto px-6 h-20 w-full top-0 sticky z-50">
+<div class="text-2xl font-serif italic text-stone-900 dark:text-stone-50">Contos de Ninar</div>
+<nav class="hidden md:flex space-x-8 font-serif text-stone-800 dark:text-stone-100">
+<a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 transition-colors duration-300 hover:text-[#C4714A] dark:hover:text-orange-300 cursor-pointer active:opacity-70" href="#">Criar</a>
+<a class="text-[#C4714A] dark:text-orange-400 border-b-2 border-[#C4714A] pb-1 font-semibold cursor-pointer active:opacity-70" href="#">Histórico</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 transition-colors duration-300 hover:text-[#C4714A] dark:hover:text-orange-300 cursor-pointer active:opacity-70" href="#">Favoritas</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 transition-colors duration-300 hover:text-[#C4714A] dark:hover:text-orange-300 cursor-pointer active:opacity-70" href="#">Configurações</a>
+</nav>
+<div class="flex items-center space-x-4">
+<button class="text-[#C4714A] dark:text-orange-400 transition-colors duration-300 hover:text-[#C4714A] dark:hover:text-orange-300 cursor-pointer active:opacity-70">
+<span class="material-symbols-outlined">person</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="max-w-[900px] mx-auto px-margin-mobile md:px-gutter py-lg">
+<div class="mb-lg">
+<h1 class="font-headline-lg text-headline-lg text-on-background mb-xs">Seu Histórico</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Revisite as histórias que você criou.</p>
+</div>
+<div class="space-y-sm">
+<!-- Story Card 1 -->
+<article class="bg-surface-variant rounded-lg p-md border border-outline-variant flex flex-col sm:flex-row gap-md items-start sm:items-center relative overflow-hidden group hover:border-outline transition-colors">
+<!-- Decorative Icon Background -->
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-[120px] text-surface-dim opacity-20 pointer-events-none select-none">water</span>
+<div class="flex-1 z-10">
+<div class="flex items-center gap-xs mb-sm">
+<span class="font-metadata text-metadata text-primary bg-primary-container text-on-primary-container px-2 py-1 rounded-full uppercase tracking-wider">há 2 dias</span>
+<span class="font-metadata text-metadata text-secondary-fixed-dim border border-secondary-fixed-dim px-2 py-1 rounded-full">Sofia, 5 anos</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-xs pr-lg">A Viagem de Lua ao Fundo do Mar</h2>
+<p class="font-body-md text-body-md text-on-surface-variant flex flex-wrap gap-2 items-center">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">pets</span> Animais</span>
+<span class="text-outline">•</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">bedtime</span> Para Dormir</span>
+<span class="text-outline">•</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">schedule</span> Curta</span>
+</p>
+</div>
+<div class="flex items-center gap-sm mt-4 sm:mt-0 z-10 w-full sm:w-auto justify-end">
+<button aria-label="Play" class="w-[48px] h-[48px] rounded-full bg-surface flex items-center justify-center text-primary hover:bg-surface-container transition-colors border border-outline-variant">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+<button aria-label="Remover Favorito" class="w-[48px] h-[48px] rounded-full bg-surface flex items-center justify-center text-primary hover:bg-surface-container transition-colors border border-outline-variant">
+<span class="material-symbols-outlined filled">favorite</span>
+</button>
+<button aria-label="Excluir" class="w-[48px] h-[48px] rounded-full bg-surface flex items-center justify-center text-on-surface-variant hover:text-error hover:bg-error-container hover:border-error transition-colors border border-outline-variant">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</article>
+<!-- Story Card 2 -->
+<article class="bg-surface-variant rounded-lg p-md border border-outline-variant flex flex-col sm:flex-row gap-md items-start sm:items-center relative overflow-hidden group hover:border-outline transition-colors">
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-[120px] text-surface-dim opacity-20 pointer-events-none select-none">smart_toy</span>
+<div class="flex-1 z-10">
+<div class="flex items-center gap-xs mb-sm">
+<span class="font-metadata text-metadata text-on-surface-variant bg-surface-container-high px-2 py-1 rounded-full uppercase tracking-wider">há 5 dias</span>
+<span class="font-metadata text-metadata text-secondary border border-secondary px-2 py-1 rounded-full">Miguel, 7 anos</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-xs pr-lg">O Robô que Aprendeu a Compartilhar</h2>
+<p class="font-body-md text-body-md text-on-surface-variant flex flex-wrap gap-2 items-center">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">explore</span> Aventura</span>
+<span class="text-outline">•</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">school</span> Com Lição de Moral</span>
+<span class="text-outline">•</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">schedule</span> Média</span>
+</p>
+</div>
+<div class="flex items-center gap-sm mt-4 sm:mt-0 z-10 w-full sm:w-auto justify-end">
+<button aria-label="Play" class="w-[48px] h-[48px] rounded-full bg-surface flex items-center justify-center text-primary hover:bg-surface-container transition-colors border border-outline-variant">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+<button aria-label="Adicionar aos Favoritos" class="w-[48px] h-[48px] rounded-full bg-surface flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors border border-outline-variant">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+<button aria-label="Excluir" class="w-[48px] h-[48px] rounded-full bg-surface flex items-center justify-center text-on-surface-variant hover:text-error hover:bg-error-container hover:border-error transition-colors border border-outline-variant">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</article>
+<!-- Story Card 3 -->
+<article class="bg-surface-variant rounded-lg p-md border border-outline-variant flex flex-col sm:flex-row gap-md items-start sm:items-center relative overflow-hidden group hover:border-outline transition-colors">
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-[120px] text-surface-dim opacity-20 pointer-events-none select-none">auto_awesome</span>
+<div class="flex-1 z-10">
+<div class="flex items-center gap-xs mb-sm">
+<span class="font-metadata text-metadata text-on-surface-variant bg-surface-container-high px-2 py-1 rounded-full uppercase tracking-wider">há 1 semana</span>
+<span class="font-metadata text-metadata text-secondary-fixed-dim border border-secondary-fixed-dim px-2 py-1 rounded-full">Sofia, 5 anos</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-xs pr-lg">A Floresta das Estrelas Douradas</h2>
+<p class="font-body-md text-body-md text-on-surface-variant flex flex-wrap gap-2 items-center">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">magic_button</span> Fantasia e Magia</span>
+<span class="text-outline">•</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">sentiment_very_satisfied</span> Divertida</span>
+<span class="text-outline">•</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">schedule</span> Longa</span>
+</p>
+</div>
+<div class="flex items-center gap-sm mt-4 sm:mt-0 z-10 w-full sm:w-auto justify-end">
+<button aria-label="Play" class="w-[48px] h-[48px] rounded-full bg-surface flex items-center justify-center text-primary hover:bg-surface-container transition-colors border border-outline-variant">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+<button aria-label="Adicionar aos Favoritos" class="w-[48px] h-[48px] rounded-full bg-surface flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors border border-outline-variant">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+<button aria-label="Excluir" class="w-[48px] h-[48px] rounded-full bg-surface flex items-center justify-center text-on-surface-variant hover:text-error hover:bg-error-container hover:border-error transition-colors border border-outline-variant">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</article>
+</div>
+</main>
+</body></html>

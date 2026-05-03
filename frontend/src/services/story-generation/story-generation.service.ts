@@ -6,7 +6,7 @@ import {
 } from "@/domain/story-generation";
 import { buildStoryPrompt } from "@/services/story-generation/prompt-builder";
 import {
-  LocalStoryProviderAdapter,
+  HttpStoryProviderAdapter,
   type StoryProviderAdapter
 } from "@/services/story-generation/provider";
 
@@ -14,6 +14,7 @@ type RawGeneratedPayload = {
   title?: string;
   text?: string;
   estimatedMinutes?: number;
+  promptVersion?: string;
 };
 
 function createGeneratedStoryId() {
@@ -62,8 +63,8 @@ function normalizeStoryOutput(payload: RawGeneratedPayload, request: GenerateSto
     id: createGeneratedStoryId(),
     title,
     text,
-    estimatedMinutes,
-    promptVersion,
+      estimatedMinutes,
+    promptVersion: payload.promptVersion?.trim() || promptVersion,
     sourceParams: request.params,
     createdAt,
     generatedAt: createdAt
@@ -74,7 +75,7 @@ export class StoryGenerationService {
   private readonly provider: StoryProviderAdapter;
   private inFlight = false;
 
-  constructor(provider: StoryProviderAdapter = new LocalStoryProviderAdapter()) {
+  constructor(provider: StoryProviderAdapter = new HttpStoryProviderAdapter()) {
     this.provider = provider;
   }
 

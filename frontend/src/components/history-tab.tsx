@@ -1,11 +1,21 @@
-export function HistoryTab() {
+import type { SavedStory } from "@/domain/story";
+import { StoryLibraryList } from "@/components/story-library-list";
+
+type HistoryTabProps = {
+  stories: SavedStory[];
+  favoriteInFlightIds: Set<string>;
+  onToggleFavorite: (story: SavedStory) => Promise<void> | void;
+};
+
+export function HistoryTab({ stories, favoriteInFlightIds, onToggleFavorite }: HistoryTabProps) {
   return (
-    <section aria-label="History section">
-      <h2 className="section-title">History</h2>
-      <p className="section-copy">
-        Previously generated stories will appear here in reverse chronological order.
-      </p>
-    </section>
+    <StoryLibraryList
+      sectionTitle="Histórico"
+      sectionCopy="Histórias já geradas ficam disponíveis aqui para replay rápido."
+      emptyMessage="Nenhuma história no histórico ainda."
+      stories={stories}
+      favoriteInFlightIds={favoriteInFlightIds}
+      onToggleFavorite={onToggleFavorite}
+    />
   );
 }
-

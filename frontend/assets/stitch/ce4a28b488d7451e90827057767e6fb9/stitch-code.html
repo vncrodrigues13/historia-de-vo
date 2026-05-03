@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contos de Ninar - Configurações 2</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&amp;family=Noto+Serif:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 24px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "inverse-on-surface": "#ffeee2",
+                "on-primary": "#ffffff",
+                "on-background": "#25190e",
+                "on-secondary-fixed": "#00210b",
+                "error-container": "#ffdad6",
+                "on-tertiary-container": "#fffbff",
+                "surface": "#fff8f5",
+                "on-tertiary-fixed": "#201b13",
+                "surface-container-lowest": "#ffffff",
+                "surface-dim": "#eed6c4",
+                "on-tertiary-fixed-variant": "#4c463c",
+                "on-surface": "#25190e",
+                "surface-variant": "#f6decc",
+                "on-primary-fixed-variant": "#753311",
+                "on-error": "#ffffff",
+                "on-secondary-fixed-variant": "#2d4e33",
+                "surface-container-low": "#fff1e8",
+                "surface-tint": "#934a27",
+                "tertiary-fixed": "#ece1d4",
+                "surface-container": "#ffeadb",
+                "surface-bright": "#fff8f5",
+                "on-primary-container": "#fffbff",
+                "inverse-primary": "#ffb595",
+                "on-primary-fixed": "#351000",
+                "on-tertiary": "#ffffff",
+                "on-error-container": "#93000a",
+                "background": "#fff8f5",
+                "on-secondary-container": "#486a4e",
+                "secondary-container": "#c3e9c5",
+                "primary": "#904824",
+                "surface-container-highest": "#f6decc",
+                "tertiary": "#625b51",
+                "surface-container-high": "#fce4d2",
+                "outline-variant": "#dac1b8",
+                "outline": "#87736b",
+                "error": "#ba1a1a",
+                "tertiary-fixed-dim": "#cfc5b8",
+                "secondary-fixed-dim": "#aad0ad",
+                "inverse-surface": "#3c2e22",
+                "primary-fixed-dim": "#ffb595",
+                "on-surface-variant": "#54433c",
+                "primary-container": "#ae603a",
+                "secondary-fixed": "#c6ecc8",
+                "tertiary-container": "#7b7369",
+                "secondary": "#44664a",
+                "primary-fixed": "#ffdbcd",
+                "on-secondary": "#ffffff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "base": "8px",
+                "gutter": "16px",
+                "md": "24px",
+                "xs": "4px",
+                "sm": "12px",
+                "lg": "48px",
+                "xl": "64px",
+                "margin-mobile": "20px"
+        },
+        "fontFamily": {
+                "headline-lg": [
+                        "Noto Serif"
+                ],
+                "metadata": [
+                        "Manrope"
+                ],
+                "body-lg": [
+                        "Manrope"
+                ],
+                "label-md": [
+                        "Manrope"
+                ],
+                "body-md": [
+                        "Manrope"
+                ],
+                "headline-md": [
+                        "Noto Serif"
+                ],
+                "headline-xl": [
+                        "Noto Serif"
+                ]
+        },
+        "fontSize": {
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "metadata": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-xl": [
+                        "40px",
+                        {
+                                "lineHeight": "48px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "400"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+</head>
+<body class="bg-background text-on-background antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container">
+<!-- Shared Component: TopAppBar -->
+<header class="w-full bg-background z-50">
+<div class="flex justify-between items-center max-w-[900px] mx-auto px-6 h-20">
+<!-- Brand Logo -->
+<a class="font-headline-lg text-headline-lg italic text-on-background tracking-tight" href="#">
+        Contos de Ninar
+      </a>
+<!-- Navigation Links (Hidden on small mobile, visible md+) -->
+<nav class="hidden md:flex items-center space-x-md">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-300 cursor-pointer active:opacity-70" href="#">
+          Criar
+        </a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-300 cursor-pointer active:opacity-70" href="#">
+          Histórico
+        </a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-300 cursor-pointer active:opacity-70" href="#">
+          Favoritas
+        </a>
+<!-- Active Link -->
+<a aria-current="page" class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1 cursor-pointer active:opacity-70" href="#">
+          Configurações
+        </a>
+</nav>
+<!-- Trailing Action -->
+<button aria-label="Profile" class="text-on-surface-variant hover:text-primary transition-colors duration-300 cursor-pointer active:opacity-70 flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow w-full max-w-[900px] mx-auto px-6 py-lg pb-xl">
+<header class="mb-xl">
+<h1 class="font-headline-xl text-headline-xl text-on-background">Configurações 2</h1>
+</header>
+<div class="space-y-xl">
+<!-- Section 1: Narração -->
+<section>
+<h2 class="font-headline-md text-headline-md text-on-background mb-md">Narração</h2>
+<div class="bg-surface rounded-2xl p-md md:p-lg border border-outline-variant space-y-xl">
+<!-- Voz padrão -->
+<div class="max-w-md">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-base" for="voice-select">Voz padrão</label>
+<div class="relative group">
+<select class="w-full bg-transparent border-b border-outline py-sm px-0 text-on-background font-body-lg text-body-lg focus:outline-none focus:border-primary focus:ring-0 appearance-none cursor-pointer transition-colors group-hover:border-primary" id="voice-select">
+<option value="fem-suave">Feminina Suave</option>
+<option value="masc-suave">Masculina Suave</option>
+<option value="fem-animada">Feminina Animada</option>
+<option value="masc-animado">Masculino Animado</option>
+</select>
+<span class="material-symbols-outlined absolute right-0 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none group-hover:text-primary transition-colors">expand_more</span>
+</div>
+</div>
+<!-- Velocidade padrão -->
+<div class="max-w-md">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-base">Velocidade padrão</label>
+<div class="flex p-xs bg-surface-variant rounded-lg border border-outline-variant">
+<button class="flex-1 py-sm px-xs rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-background hover:bg-surface/50 transition-all cursor-pointer">
+                Lenta
+              </button>
+<button class="flex-1 py-sm px-xs rounded-md bg-surface shadow-sm border border-outline-variant/50 font-label-md text-label-md text-on-background cursor-default">
+                Normal
+              </button>
+<button class="flex-1 py-sm px-xs rounded-md font-label-md text-label-md text-on-surface-variant hover:text-on-background hover:bg-surface/50 transition-all cursor-pointer">
+                Rápida
+              </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Sobre -->
+<section>
+<h2 class="font-headline-md text-headline-md text-on-background mb-md">Sobre</h2>
+<div class="bg-surface rounded-2xl p-md md:p-lg border border-outline-variant flex flex-col space-y-sm">
+<p class="font-label-md text-label-md text-on-background">
+            Contos de Ninar · v0.1.0
+          </p>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl leading-relaxed">
+            Suas histórias ficam salvas neste dispositivo e não são enviadas para nenhum servidor. 
+            Priorizamos a privacidade e um ambiente digital sereno para sua família.
+          </p>
+</div>
+</section>
+</div>
+</main>
+<!-- Decorative Motif (Slow Parenting theme element) -->
+<div class="fixed bottom-12 right-12 opacity-20 pointer-events-none z-[-1] hidden lg:block">
+<svg fill="none" height="120" viewbox="0 0 120 120" width="120" xmlns="http://www.w3.org/2000/svg">
+<path class="text-outline" d="M60 10C60 37.6142 82.3858 60 110 60C82.3858 60 60 82.3858 60 110C60 82.3858 37.6142 60 10 60C37.6142 60 60 37.6142 60 10Z" stroke="currentColor" stroke-width="1"></path>
+</svg>
+</div>
+</body></html>
