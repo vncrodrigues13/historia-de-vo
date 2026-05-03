@@ -97,3 +97,101 @@ Open technical question to resolve before implementation:
 Tech Lead note for `@dev`:
 - Reuse Feature 05 storage service boundaries instead of introducing a new storage path.
 - Keep Portuguese-first labels consistent with existing terminology: `Favoritas`, `Salvar nos Favoritos`, `Remover dos Favoritos`.
+
+## QA Analysis - 2026-05-02
+
+Coverage assessment:
+The feature is testable and now has sufficient technical direction, but QA must lock expected behaviors for toggle latency, storage failure handling, and cross-tab consistency.
+
+Test strategy:
+- Prioritize unit tests at the storage boundary for deterministic favorite state transitions.
+- Add component tests for History/Result/Favorites interactions and Portuguese copy.
+- Add integration tests that validate persistence across reload/re-mount cycles.
+
+Acceptance criteria:
+- Toggling favorite from History marks the story as favorited and immediately includes it in Favorites.
+- Toggling favorite off from Favorites removes it from Favorites without deleting it from History.
+- Toggling favorite from Result updates the same stored story entity by `id`.
+- `favorite` updates must preserve `createdAt`, `promptVersion`, story content, and params.
+- On storage write failure, UI shows retryable Portuguese feedback and does not corrupt list state.
+- Favorites persist after page reload via storage re-read.
+
+Automation candidates:
+- Unit test `toggleFavorite(storyId, nextFavorite?)` sets `favorite` and updates `updatedAt` only.
+- Unit test default toggle behavior (no `nextFavorite`) flips current boolean.
+- Unit test missing `storyId` returns typed no-op and leaves storage unchanged.
+- Unit test repeated fast toggles while in-flight are blocked or coalesced per decided rule.
+- Component test History card action label/icon switches between save/remove favorite states.
+- Component test Favorites screen renders only `favorite === true` rows and Portuguese empty state.
+- Component test unfavorite action in Favorites removes the row from that view but not from History.
+- Component test Result action writes favorite state for the generated/persisted story.
+- Integration test remount/reload retains favorite state from local storage.
+- Integration test storage failure path rolls back optimistic UI (if optimistic mode is adopted).
+
+Manual test scenarios:
+1. Favorite in History, switch to Favorites, confirm item appears once and with correct label.
+2. Unfavorite in Favorites, switch to History, confirm story remains available and unfavorited.
+3. Favorite from Result right after generation, then open History/Favorites and confirm consistency.
+4. Reload browser tab and confirm previously favorited stories remain in Favorites.
+5. Simulate storage failure and confirm Portuguese error feedback plus recoverable retry behavior.
+
+Regression focus:
+- Feature 03 generation/persistence flow must remain intact when favorite toggling is introduced.
+- Feature 05 local library ordering and story identity (`id`) must not change unexpectedly.
+- No duplicate records may be created by favoriting/unfavoriting operations.
+
+QA exit criteria:
+- All new favorite-related unit/component/integration tests pass in the default frontend test command.
+- Manual checks confirm parity across mobile and desktop for History/Favorites/Result favorite actions.
+
+## Tech Lead Implementation Readiness Addendum - 2026-05-02
+
+Technical approach:
+Build Favorites as a storage-backed projection over the existing local story library. Extend the `SavedStory` contract with a persisted `favorite: boolean` value defaulting to `false` for older records, expose a single `toggleFavorite(storyId, nextFavorite?)` storage operation, and have History, Result, Reader, and Favorites consume the same story state source. Do not create a separate favorites collection.
+
+Affected areas:
+- Frontend story domain/entity types.
+- Local story storage adapter and migrations/default normalization.
+- History story cards and item actions.
+- Result/reader story actions.
+- Navigation/tab shell for the Favorites section.
+- Frontend unit, component, and persistence integration tests.
+
+Dependencies:
+- Feature 03 must assign a stable story `id` before Result actions can target persistence.
+- Feature 05 must provide the local story storage boundary and IndexedDB-backed saved story list.
+- If older saved records exist without `favorite`, read normalization must treat them as `favorite: false` without destructive migration.
+- Favorite labels and empty states must stay Portuguese-first.
+
+Data flow:
+1. UI receives a `SavedStory` from the local library state.
+2. Favorite action calls `toggleFavorite(story.id, nextFavorite?)`.
+3. Storage updates only `favorite` and `updatedAt` for that `id`.
+4. App re-reads or reconciles the updated story into the canonical saved-story list.
+5. History renders all stories; Favorites renders `stories.filter((story) => story.favorite)`.
+
+Engineering tasks:
+- [ ] Add or confirm `favorite: boolean` on `SavedStory` with default normalization for legacy records.
+- [ ] Implement `toggleFavorite(storyId: string, nextFavorite?: boolean)` in the existing story storage service.
+- [ ] Return a typed result for success, missing story, and persistence failure; avoid throwing into UI components for expected cases.
+- [ ] Add per-story in-flight state so rapid repeated taps cannot race and produce stale favorite state.
+- [ ] Add reusable favorite action UI with accessible labels for favorited and non-favorited states.
+- [ ] Wire favorite action into History cards without changing History membership or sort behavior.
+- [ ] Wire favorite action into persisted Result/reader stories, hiding or disabling it when no persisted story `id` exists.
+- [ ] Add the Favorites section as a filtered view with Portuguese empty state copy.
+- [ ] Ensure unfavorite from Favorites removes the item from the Favorites projection but leaves it visible in History.
+
+Testing notes:
+- Storage tests should assert only `favorite` and `updatedAt` change during toggle.
+- Component tests should cover History, Favorites, and Result/reader entry points using the same mocked storage state.
+- Persistence tests should verify favorites survive reload/remount and legacy records without `favorite` still render safely.
+- Accessibility tests or assertions should cover button labels/state for screen readers, not just icon changes.
+
+Risks:
+- A separate favorites store would introduce drift and duplicate/deleted records; keep a single source of truth.
+- Optimistic UI without rollback can corrupt perceived state on storage failure; implement rollback or confirmed-write state deliberately.
+- Result favorite action can fail if generation persistence is non-blocking; only enable it when a storage-resolvable `id` exists.
+
+Open technical questions:
+- Final icon choice remains a product/UI decision: star and heart are both viable, but the implementation must not rely on icon-only meaning.
+- Confirm whether Favorites should inherit History ordering (`createdAt` newest first) or sort by most recently favorited (`updatedAt` newest first). Recommendation for MVP: inherit History ordering to avoid surprising list movement after unrelated edits.
